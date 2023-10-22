@@ -34,6 +34,7 @@ async function run() {
 
     const productCollection = client.db('productDB').collection('product');
     const brandCollection = client.db('productDB').collection('brands');
+    const cartCollection = client.db('productDB').collection('carts');
 
     // to get brand names and logo in home page
     app.get('/brands', async(req, res) =>{
@@ -50,7 +51,16 @@ async function run() {
         res.send(result);
     });
   
+    // to go to a specific products detail route
     app.get('/product/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await productCollection.findOne(query);
+        res.send(result);
+    });
+ 
+    // to go to a specific products update route
+    app.get('/products/:id', async (req, res) => {
         const id = req.params.id;
         const query = { _id: new ObjectId(id) };
         const result = await productCollection.findOne(query);
@@ -61,20 +71,6 @@ async function run() {
     
     
 
-    // app.get('/products/:id', async (req, res) => {
-    //     const id = req.params.id;
-    //     const query = {_id: new ObjectId(id)};
-    //     const cursor = productCollection.findOne(query);
-    //     const result = await cursor.toArray();
-    //     res.send(result);
-    // });
-
-    // app.get('/products/:id', async (req, res) => {
-    //     const id = req.params.id;
-    //     const query = { _id: new ObjectId(id) };
-    //     const result = await productCollection.findOne(query);
-    //     res.send(result);
-    // });
     
 
   
@@ -94,6 +90,16 @@ async function run() {
         const result2 = await brandCollection.insertOne(newBrand)
         res.send(result2);
     })
+
+ // for adding cart items
+
+ app.post('/myCart', async(req, res) =>{
+  const newCart = req.body;
+  console.log(newCart)
+  const result = await cartCollection.insertOne(newCart)
+  res.send(result);
+})
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
