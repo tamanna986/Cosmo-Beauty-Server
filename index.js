@@ -60,7 +60,7 @@ async function run() {
     });
  
     // to go to a specific products update route
-    app.get('/products/:id', async (req, res) => {
+    app.get('/update/:id', async (req, res) => {
         const id = req.params.id;
         const query = { _id: new ObjectId(id) };
         const result = await productCollection.findOne(query);
@@ -114,6 +114,57 @@ app.delete('/myCart/:id', async (req, res) => {
   const result = await cartCollection.deleteOne(query);
   res.send(result);
 });
+
+// to update product
+// app.put('/update/:id' async(req,res) =>{
+// const id = req.params.id;
+// const query = {_id: new ObjectId(id)}
+// const options = {upsert: true}
+// const updatedProduct = req.body;
+// const product = {
+//   $set: {
+
+   
+//      photo = updatedProduct.photo,
+//      name = updatedProduct.name,
+//      brandName = updatedProduct.brandName,
+//      category = updatedProduct.category,
+//      price = updatedProduct.price,
+//      rating = updatedProduct.rating
+
+
+//   }
+// }
+
+// })
+
+
+// update
+app.put('/update/:id', async(req,res) =>{
+  const id = req.params.id;
+  const query = {_id: new ObjectId(id)}
+  const options = {upsert: true};
+  const updatedProduct = req.body;
+  const product = {
+
+    $set: {
+
+           photo: updatedProduct.photo,
+           name: updatedProduct.name,
+           brandName: updatedProduct.brandName,
+           category: updatedProduct.category,
+           price: updatedProduct.price,
+           rating: updatedProduct.rating
+
+
+    }
+
+
+  }
+
+  const result = await productCollection.updateOne(query,product,options);
+  res.send(result)
+})
 
 
 
