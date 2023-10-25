@@ -16,8 +16,8 @@ app.use(express.json());
 
 
 const uri = "mongodb+srv://cosmoBeauty:iPJxUWXT0vNogto4@cluster0.cuu4rc1.mongodb.net/?retryWrites=true&w=majority";
-// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.cuu4rc1.mongodb.net/?retryWrites=true&w=majority`;
-console.log(uri)
+// // const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.cuu4rc1.mongodb.net/?retryWrites=true&w=majority`;
+// console.log(uri)
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -30,7 +30,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const productCollection = client.db('productDB').collection('product');
     const brandCollection = client.db('productDB').collection('brands');
@@ -115,28 +115,7 @@ app.delete('/myCart/:id', async (req, res) => {
   res.send(result);
 });
 
-// to update product
-// app.put('/update/:id' async(req,res) =>{
-// const id = req.params.id;
-// const query = {_id: new ObjectId(id)}
-// const options = {upsert: true}
-// const updatedProduct = req.body;
-// const product = {
-//   $set: {
 
-   
-//      photo = updatedProduct.photo,
-//      name = updatedProduct.name,
-//      brandName = updatedProduct.brandName,
-//      category = updatedProduct.category,
-//      price = updatedProduct.price,
-//      rating = updatedProduct.rating
-
-
-//   }
-// }
-
-// })
 
 
 // update
@@ -170,7 +149,7 @@ app.put('/update/:id', async(req,res) =>{
 
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
